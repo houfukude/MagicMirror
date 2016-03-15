@@ -12,6 +12,10 @@ body,html {
   text-rendering: geometricprecision;
 }
 
+a {
+  display: inline-block  
+}
+
 .wi {
   line-height: 75px;
 }

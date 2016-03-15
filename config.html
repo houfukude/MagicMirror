@@ -79,9 +79,10 @@ $("button").click(function() {
     storage.setItem("config.weather.params.q",$("#city").val());
     storage.setItem("config.weather.params.units",$("#units").val());
     storage.setItem("config.news.feed",$("#feedUrl").val());
+    storage.setItem("isSaved",true);
     var key = $("#key").val();
     if(key != 'YOUR_APPID'){
-        storage.setItem("config.weather.params.APPID",);
+        storage.setItem("config.weather.params.APPID",key);
     }
     window.location.href='./index.html';
 });

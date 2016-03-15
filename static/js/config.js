@@ -70,8 +70,11 @@ var config = {
 }
 
 var storage = window.localStorage;
-if(storage.length<=9){
+
+if(storage.getItem("isSaved") != "true"){
     $('#dialog').show();
+}else{
+    $('#dialog').hide();
 }
 config['lang'] = storage.getItem("config.lang");
 config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on'?'24':'12';
