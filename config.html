@@ -58,7 +58,7 @@
 
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         <input class="mdl-textfield__input" type="text" id="feedUrl"
-               value="YOUR_FEED_URL">
+               value="http://rss.news.sohu.com/rss/focus.xml">
         <label class="mdl-textfield__label" for="feedUrl">Feed URL</label>
     </div>
     <br/>
@@ -78,8 +78,11 @@ $("button").click(function() {
     storage.setItem("config.time.digitFade",$("#digitFade").val());
     storage.setItem("config.weather.params.q",$("#city").val());
     storage.setItem("config.weather.params.units",$("#units").val());
-    storage.setItem("config.weather.params.APPID",$("#key").val());
     storage.setItem("config.news.feed",$("#feedUrl").val());
+    var key = $("#key").val();
+    if(key != 'YOUR_APPID'){
+        storage.setItem("config.weather.params.APPID",);
+    }
 });
 </script>
 </body>

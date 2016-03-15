@@ -70,7 +70,7 @@ var config = {
 }
 
 var storage = window.localStorage;
-if(storage.length<9){
+if(storage.length<=9){
     $('#dialog').show();
 }
 config['lang'] = storage.getItem("config.lang");
