@@ -20,6 +20,9 @@ body,html {
   position: absolute;
   top: 50px;
 }
+.dialog{
+  top: 300px;
+}
 
 .left {
   position: absolute;
