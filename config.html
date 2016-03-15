@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>Magic Mirror Settings</title>
+    <meta name="google" value="notranslate"/>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <link rel="stylesheet" href="static/css/material.min.css">
+    <script src="static/js/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="static/css/settings.css">
+</head>
+<body class="mdl-color--black mdl-color-text--blue-grey-400 ">
+<div class="mdl-layout__container">
+    <h3>Magic Mirror Settings</h3>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
+        <input class="mdl-textfield__input" type="text" id="lang" value="zh-cn">
+        <label class="mdl-textfield__label" for="lang">Language</label>
+    </div>
+    <br/>
+    <h5>Time Settings</h5>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="timeFormat">
+        <input type="checkbox" id="timeFormat" class="mdl-checkbox__input " checked>
+        <span class="mdl-checkbox__label">Enable24Hours</span>
+    </label>
+    <br/>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="displaySeconds">
+        <input type="checkbox" id="displaySeconds" class="mdl-checkbox__input" checked>
+        <span class="mdl-checkbox__label">DisplaySeconds</span>
+    </label>
+    <br/>
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="digitFade">
+        <input type="checkbox" id="digitFade" class="mdl-checkbox__input">
+        <span class="mdl-checkbox__label">DigitFade</span>
+    </label>
+    <br/>
+
+    <h5>OpenWeatherMap</h5>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="key" value="YOUR_APPID">
+        <label class="mdl-textfield__label" for="key">API key</label>
+    </div>
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="city" value="chongqing,china">
+        <label class="mdl-textfield__label" for="city">City</label>
+    </div>
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="units" value="metric">
+        <label class="mdl-textfield__label" for="units">units</label>
+    </div>
+    <br/>
+    <h5>News</h5>
+
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <input class="mdl-textfield__input" type="text" id="feedUrl"
+               value="YOUR_FEED_URL">
+        <label class="mdl-textfield__label" for="feedUrl">Feed URL</label>
+    </div>
+    <br/>
+
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" >
+        Save!
+    </button>
+</div>
+<script src="static/js/jquery.js"></script>
+<script>
+
+$("button").click(function() {
+    var storage = window.localStorage;
+    storage.setItem("config.lang",$("#lang").val());
+    storage.setItem("config.time.timeFormat",$("#timeFormat").val());
+    storage.setItem("config.time.displaySeconds",$("#displaySeconds").val());
+    storage.setItem("config.time.digitFade",$("#digitFade").val());
+    storage.setItem("config.weather.params.q",$("#city").val());
+    storage.setItem("config.weather.params.units",$("#units").val());
+    storage.setItem("config.weather.params.APPID",$("#key").val());
+    storage.setItem("config.news.feed",$("#feedUrl").val());
+});
+</script>
+</body>
+</html>

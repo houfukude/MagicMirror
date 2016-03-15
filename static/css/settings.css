@@ -1,0 +1,14 @@
+body,html {
+  #background: #000;
+  #color: #fff;
+  font-family: "HelveticaNeue-Light", sans-serif;
+  padding: 8px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricprecision;
+  position: absolute;
+  text-align: center;
+}
+
+.mdl-checkbox {
+  width: 120;
+}
