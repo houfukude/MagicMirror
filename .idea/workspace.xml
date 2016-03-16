@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85c77983-8dba-4d8b-8cac-9a418f3a296d" name="Default" comment="[fix] some display problem&#10;[add] some hint">
+    <list default="true" id="85c77983-8dba-4d8b-8cac-9a418f3a296d" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="html.iws" />
@@ -515,7 +515,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458114194744</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="[fix] some display problem&#10;[add] some hint">
+      <created>1458114719404</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1458114719404</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
