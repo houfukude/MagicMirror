@@ -1,14 +1,23 @@
-body,html {
-  #background: #000;
-  #color: #fff;
+body {
   font-family: "HelveticaNeue-Light", sans-serif;
   padding: 8px;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricprecision;
-  position: absolute;
-  text-align: center;
+
+
 }
 
 .mdl-checkbox {
   width: 120;
+}
+.mdl-textfield__label {
+    color: #3f51b5;
+}
+.mdl-layout__container{
+  width:350;
+  padding-left: 40%;
+  padding-right: 30%;
+}
+.button{
+  text-align: center;
 }
