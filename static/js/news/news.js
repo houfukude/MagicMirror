@@ -6,8 +6,7 @@ var news = {
 	newsLocation: '.news',
 	newsItems: [],
 	seenNewsItem: [],
-	_yqURL: 'https://query.yahooapis.com/v1/public/yql',
-	_yqlQS: '?format=json&q=select%20*%20from%20rss%20where%20url%3D',
+	_rss2json: 'https://api.rss2json.com/v1/api.json?rss_url=',
 	_cacheBuster: Math.floor((new Date().getTime()) / 1200 / 1000),
 	_failedAttempts: 0,
 	fetchInterval: config.news.fetchInterval || 60000,
@@ -24,7 +23,7 @@ var news = {
  */
 news.buildQueryString = function (feed) {
 
-	return this._yqURL + this._yqlQS + '%27' + encodeURIComponent(feed) + '%27';
+	return this._rss2json + encodeURIComponent(feed);
 
 }
 
@@ -38,8 +37,8 @@ news.fetchNews = function () {
 
 	this.feed.forEach(function (_curr) {
 
-		var _yqUrlString = this.buildQueryString(_curr);
-		this.fetchFeed(_yqUrlString);
+		var _UrlString = this.buildQueryString(_curr);
+		this.fetchFeed(_UrlString);
 
 	}.bind(this));
 
@@ -47,26 +46,26 @@ news.fetchNews = function () {
 
 /**
  * Runs a GET request to Yahoo's service
- * @param  {string} yqUrl The URL being used to grab the RSS feed (in JSON format)
+ * @param  {string} rssUrl The URL being used to grab the RSS feed (in JSON format)
  */
-news.fetchFeed = function (yqUrl) {
+news.fetchFeed = function (rssUrl) {
 
 	$.ajax({
 		type: 'GET',
 		datatype:'jsonp',
-		url: yqUrl,
+		url: rssUrl,
 		success: function (data) {
 
-			if (data.query.count > 0) {
-				this.parseFeed(data.query.results.item);
+			if (data.items.length > 0) {
+				this.parseFeed(data.items);
 			} else {
-				console.error('No feed results for: ' + yqUrl);
+				console.error('No feed results for: ' + rssUrl);
 			}
 
 		}.bind(this),
 		error: function () {
 			// non-specific error message that should be updated
-			console.error('No feed results for: ' + yqUrl);
+			console.error('No feed results for: ' + rssUrl);
 		}
 	});
 
