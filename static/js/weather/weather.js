@@ -26,7 +26,7 @@ var weather = {
 	windSunLocation: '.windsun',
 	forecastLocation: '.forecast',
 	apiVersion: '2.5',
-	apiBase: 'http://api.openweathermap.org/data/',
+	apiBase: 'https://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
 	forecastEndpoint: 'forecast/daily',
 	updateInterval: config.weather.interval || 12000,
