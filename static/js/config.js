@@ -39,30 +39,30 @@ var config = {
     },
     calendar: {
         maximumEntries: 15, // Total Maximum Entries
-		displaySymbol: true,
-		defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
+        displaySymbol: true,
+        defaultSymbol: 'calendar', // Fontawsome Symbol see http://fontawesome.io/cheatsheet/
         urls: [
-        // {
-        //     symbol: 'calendar-plus-o',
-        //     url: './static/ics/1.ics'
-        // },
-        // {
-        //     symbol: 'certificate',
-        //     url: './static/ics/2.ics'
-        // },
-		// {
-		// 	symbol: 'moon-o',
-		// 	url: "https://calendar.google.com/calendar/ical/ug2j3l2nqq7uch3m9n0pm5t2lo%40group.calendar.google.com/public/basic.ics",
-		// },
-		// {
-			// symbol: 'venus',
-			// url: "https://server/url/to/hers.ics",
-		// },
-		// {
-			// symbol: 'venus-mars',
-			// url: "https://server/url/to/theirs.ics",
-		// },
-		]
+            // {
+            //     symbol: 'calendar-plus-o',
+            //     url: './static/ics/1.ics'
+            // },
+            // {
+            //     symbol: 'certificate',
+            //     url: './static/ics/2.ics'
+            // },
+            // {
+            // 	symbol: 'moon-o',
+            // 	url: "https://calendar.google.com/calendar/ical/ug2j3l2nqq7uch3m9n0pm5t2lo%40group.calendar.google.com/public/basic.ics",
+            // },
+            // {
+            // symbol: 'venus',
+            // url: "https://server/url/to/hers.ics",
+            // },
+            // {
+            // symbol: 'venus-mars',
+            // url: "https://server/url/to/theirs.ics",
+            // },
+        ]
     },
     news: {
         feed: ''
@@ -71,15 +71,15 @@ var config = {
 
 var storage = window.localStorage;
 
-if(storage.getItem("isSaved") != "true"){
+if (storage.getItem("isSaved") != "true") {
     $('#dialog').show();
-}else{
+} else {
     $('#dialog').hide();
 }
 config['lang'] = storage.getItem("config.lang");
-config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on'?'24':'12';
-config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on'?true:false;
-config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on'?true:false;
+config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
+config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
+config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
 config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
 config['weather']['params']['units'] = storage.getItem("config.weather.params.units");
 config['weather']['params']['lang'] = config.lang;

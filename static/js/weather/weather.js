@@ -3,24 +3,24 @@ var weather = {
 	lang: config.lang || 'nl',
 	params: config.weather.params || null,
 	iconTable: {
-		'01d':'wi-day-sunny',
-		'02d':'wi-day-cloudy',
-		'03d':'wi-cloudy',
-		'04d':'wi-cloudy-windy',
-		'09d':'wi-showers',
-		'10d':'wi-rain',
-		'11d':'wi-thunderstorm',
-		'13d':'wi-snow',
-		'50d':'wi-fog',
-		'01n':'wi-night-clear',
-		'02n':'wi-night-cloudy',
-		'03n':'wi-night-cloudy',
-		'04n':'wi-night-cloudy',
-		'09n':'wi-night-showers',
-		'10n':'wi-night-rain',
-		'11n':'wi-night-thunderstorm',
-		'13n':'wi-night-snow',
-		'50n':'wi-night-alt-cloudy-windy'
+		'01d': 'wi-day-sunny',
+		'02d': 'wi-day-cloudy',
+		'03d': 'wi-cloudy',
+		'04d': 'wi-cloudy-windy',
+		'09d': 'wi-showers',
+		'10d': 'wi-rain',
+		'11d': 'wi-thunderstorm',
+		'13d': 'wi-snow',
+		'50d': 'wi-fog',
+		'01n': 'wi-night-clear',
+		'02n': 'wi-night-cloudy',
+		'03n': 'wi-night-cloudy',
+		'04n': 'wi-night-cloudy',
+		'09n': 'wi-night-showers',
+		'10n': 'wi-night-rain',
+		'11n': 'wi-night-thunderstorm',
+		'13n': 'wi-night-snow',
+		'50n': 'wi-night-alt-cloudy-windy'
 	},
 	temperatureLocation: '.temp',
 	windSunLocation: '.windsun',
@@ -50,7 +50,7 @@ weather.roundValue = function (temperature) {
  * @param  {int} kmh The wind speed in Kilometers Per Hour
  * @return {int}     The wind speed converted into its corresponding Beaufort number
  */
-weather.ms2Beaufort = function(ms) {
+weather.ms2Beaufort = function (ms) {
 	var kmh = ms * 60 * 60 / 1000;
 	var speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
 	for (var beaufort in speeds) {
@@ -87,8 +87,8 @@ weather.updateCurrentWeather = function () {
 			$(this.temperatureLocation).updateWithText(_newTempHtml, this.fadeInterval);
 
 			var _now = moment().format('HH:mm'),
-				_sunrise = moment(data.sys.sunrise*1000).format('HH:mm'),
-				_sunset = moment(data.sys.sunset*1000).format('HH:mm');
+				_sunrise = moment(data.sys.sunrise * 1000).format('HH:mm'),
+				_sunset = moment(data.sys.sunset * 1000).format('HH:mm');
 
 			var _newWindHtml = '<span class="wind"><span class="wi wi-strong-wind xdimmed"></span> ' + this.ms2Beaufort(_wind) + '</span>',
 				_newSunHtml = '<span class="sun"><span class="wi wi-sunrise xdimmed"></span> ' + _sunrise + '</span>';
@@ -97,7 +97,7 @@ weather.updateCurrentWeather = function () {
 				_newSunHtml = '<span class="sun"><span class="wi wi-sunset xdimmed"></span> ' + _sunset + '</span>';
 			}
 
-			$(this.windSunLocation).updateWithText(_newWindHtml + ' ' + _newSunHtml,this.fadeInterval);
+			$(this.windSunLocation).updateWithText(_newWindHtml + ' ' + _newSunHtml, this.fadeInterval);
 
 		}.bind(this),
 		error: function () {
@@ -129,7 +129,7 @@ weather.updateWeatherForecast = function () {
 			for (var i = 0, count = data.list.length; i < count; i++) {
 
 				var _forecast = data.list[i];
-				
+
 				if (this.orientation == 'vertical') {
 					_forecastHtml2 = '';
 					_forecastHtml3 = '';
@@ -147,15 +147,15 @@ weather.updateWeatherForecast = function () {
 					_forecastHtml += _forecastHtml2 + _forecastHtml3 + _forecastHtml4 + '</tr>';
 				}
 			}
-			_forecastHtml  += '</tr>',
-			_forecastHtml2 += '</tr>',
-			_forecastHtml3 += '</tr>',
-			_forecastHtml4 += '</tr>';
-			
+			_forecastHtml += '</tr>',
+				_forecastHtml2 += '</tr>',
+				_forecastHtml3 += '</tr>',
+				_forecastHtml4 += '</tr>';
+
 			if (this.orientation == 'vertical') {
 				_forecastHtml += '</table>';
 			} else {
-				_forecastHtml += _forecastHtml2 + _forecastHtml3 + _forecastHtml4 +'</table>';
+				_forecastHtml += _forecastHtml2 + _forecastHtml3 + _forecastHtml4 + '</table>';
 			}
 
 			$(this.forecastLocation).updateWithText(_forecastHtml, this.fadeInterval);

@@ -52,7 +52,7 @@ news.fetchFeed = function (rssUrl) {
 
 	$.ajax({
 		type: 'GET',
-		datatype:'jsonp',
+		datatype: 'jsonp',
 		url: rssUrl,
 		success: function (data) {
 
