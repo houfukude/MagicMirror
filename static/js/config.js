@@ -1,5 +1,5 @@
 var config = {
-    lang: 'en',
+    lang: 'zh-cn',
     time: {
         timeFormat: 24,
         displaySeconds: true,
@@ -69,19 +69,71 @@ var config = {
     }
 }
 
-var storage = window.localStorage;
+config.init = function () {
 
-if (storage.getItem("isSaved") != "true") {
-    $('#dialog').show();
-} else {
-    $('#dialog').hide();
+    var storage = window.localStorage;
+
+    const params = new URLSearchParams(window.location.search);
+    const config_url = params.get('config'); // 获取 config 参数
+
+    console.log("配置文件地址:", config_url);
+    if (config_url) {
+        // config_url 是一个 json 文件的地址
+        fetch(config_url)
+            .then(response => {
+                if (!response.ok) throw new Error("网络错误: " + response.status);
+                return response.json();
+            })
+            .then(remoteConfig => {
+                // 将远程配置覆盖本地存储配置
+                config['lang'] = remoteConfig.lang || storage.getItem("config.lang");
+                config['time']['timeFormat'] = (remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat")) === 'on' ? '24' : '12';
+                config['time']['displaySeconds'] = (remoteConfig.time?.displaySeconds ?? storage.getItem("config.time.displaySeconds")) === 'on';
+                config['time']['digitFade'] = (remoteConfig.time?.digitFade ?? storage.getItem("config.time.digitFade")) === 'on';
+                config['weather']['params']['q'] = remoteConfig.weather?.params?.q || storage.getItem("config.weather.params.q");
+                config['weather']['params']['units'] = remoteConfig.weather?.params?.units || storage.getItem("config.weather.params.units");
+                config['weather']['params']['lang'] = config.lang;
+                config['weather']['params']['APPID'] = remoteConfig.weather?.params?.APPID || storage.getItem("config.weather.params.APPID");
+                config['news']['feed'] = remoteConfig.news?.feed || storage.getItem("config.news.feed");
+
+                // 保存远程配置到 localStorage
+                storage.setItem("config.lang", config.lang);
+                storage.setItem("config.time.timeFormat", remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat"));
+                storage.setItem("config.time.displaySeconds", remoteConfig.time?.displaySeconds ?? storage.getItem("config.time.displaySeconds"));
+                storage.setItem("config.time.digitFade", remoteConfig.time?.digitFade ?? storage.getItem("config.time.digitFade"));
+                storage.setItem("config.weather.params.q", remoteConfig.weather?.params?.q ?? storage.getItem("config.weather.params.q"));
+                storage.setItem("config.weather.params.units", remoteConfig.weather?.params?.units ?? storage.getItem("config.weather.params.units"));
+                storage.setItem("config.weather.params.APPID", remoteConfig.weather?.params?.APPID ?? storage.getItem("config.weather.params.APPID"));
+                storage.setItem("config.news.feed", remoteConfig.news?.feed ?? storage.getItem("config.news.feed"));
+
+                // 标记已经保存
+                storage.setItem("isSaved", "true");
+
+                $('#dialog').hide(); // 成功读取远程配置后隐藏对话框
+
+            })
+            .catch(err => {
+                console.error("读取远程配置失败:", err);
+                // 如果读取失败，就使用本地存储
+                $('#dialog').show();
+            });
+    } else {
+        if (storage.getItem("isSaved") != "true") {
+            $('#dialog').show();
+        } else {
+            $('#dialog').hide();
+        }
+
+        config['lang'] = storage.getItem("config.lang");
+        config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
+        config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
+        config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
+        config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
+        config['weather']['params']['units'] = storage.getItem("config.weather.params.units");
+        config['weather']['params']['lang'] = config.lang;
+        config['weather']['params']['APPID'] = storage.getItem("config.weather.params.APPID");
+        config['news']['feed'] = storage.getItem("config.news.feed");
+    }
+
+
 }
-config['lang'] = storage.getItem("config.lang");
-config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
-config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
-config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
-config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
-config['weather']['params']['units'] = storage.getItem("config.weather.params.units");
-config['weather']['params']['lang'] = config.lang;
-config['weather']['params']['APPID'] = storage.getItem("config.weather.params.APPID");
-config['news']['feed'] = storage.getItem("config.news.feed");

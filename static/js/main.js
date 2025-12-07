@@ -21,6 +21,29 @@ function roundVal(temp) {
 	return Math.round(temp * 10) / 10;
 }
 
+function rotateDisplay() {
+	// 获取 URL 查询参数
+	const params = new URLSearchParams(window.location.search);
+	const rotate = params.get('rotate'); // 获取 rotate 参数
+
+	if (rotate) {
+		// 根据参数值旋转页面
+		const degree = parseInt(rotate);
+		if (!isNaN(degree)) {
+			document.body.style.transform = `rotate(${degree}deg)`;
+
+			// 旋转 90/270 度时，需要调整 body 尺寸和位置
+			if (degree % 180 !== 0) {
+				document.body.style.width = '100vh';
+				document.body.style.height = '100vw';
+
+				document.body.style.top = '0';
+				document.body.style.left = '0';
+			}
+		}
+	}
+}
+
 jQuery(document).ready(function ($) {
 
 	var eventList = [];
@@ -31,6 +54,7 @@ jQuery(document).ready(function ($) {
 
 	moment.locale(config.lang);
 
+	rotateDisplay();
 	//connect do Xbee monitor
 	// var socket = io.connect('http://rpi-alarm.local:8082');
 	// socket.on('dishwasher', function (dishwasherReady) {
@@ -44,6 +68,8 @@ jQuery(document).ready(function ($) {
 	// });
 
 	//version.init();
+
+	config.init();
 
 	time.init();
 

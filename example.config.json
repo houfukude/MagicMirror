@@ -1,0 +1,40 @@
+{
+    "lang": "zh-cn",
+    "time": {
+        "timeFormat": 24,
+        "displaySeconds": true,
+        "digitFade": true
+    },
+    "weather": {
+        "params": {
+            "q": "chongqing,china",
+            "units": "metric",
+            "lang": "",
+            "APPID": ""
+        }
+    },
+    "compliments": {
+        "interval": 30000,
+        "fadeInterval": 4000,
+        "morning": [
+            "早上好，美女！",
+            "祝您愉快!",
+            "昨晚睡得怎么样?",
+            "淫荡的一天又开始了！"
+        ],
+        "afternoon": [
+            "你好, 大美女!",
+            "你今天看起来真性感!",
+            "你今天看起来真完美!"
+        ],
+        "evening": [
+            "哇, 你今天真是火辣!",
+            "你看起来真是养眼!",
+            "Hi, sexy!",
+            "完美无缺"
+        ]
+    },
+    "news": {
+        "feed": "https://feedx.net/rss/nytimes.xml"
+    }
+}
