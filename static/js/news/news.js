@@ -130,6 +130,7 @@ news.showNews = function () {
 }
 
 news.init = function () {
+	this.feed = config.news.feed || null;
 
 	if (this.feed === null || (this.feed instanceof Array === false && typeof this.feed !== 'string')) {
 		return false;

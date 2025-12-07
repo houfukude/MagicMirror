@@ -170,6 +170,9 @@ weather.updateWeatherForecast = function () {
 
 weather.init = function () {
 
+	this.lang = config.lang || 'nl';
+	this.params = config.weather.params || {};
+
 	if (this.params.lang === undefined) {
 		this.params.lang = this.lang;
 	}

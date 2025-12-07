@@ -73,10 +73,28 @@ config.init = function () {
 
     var storage = window.localStorage;
 
+    if (storage.getItem("isSaved") != "true") {
+        $('#dialog').show();
+    } else {
+        $('#dialog').hide();
+    }
+
+    config['lang'] = storage.getItem("config.lang");
+    config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
+    config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
+    config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
+    config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
+    config['weather']['params']['units'] = storage.getItem("config.weather.params.units");
+    config['weather']['params']['lang'] = config.lang;
+    config['weather']['params']['APPID'] = storage.getItem("config.weather.params.APPID");
+    config['news']['feed'] = storage.getItem("config.news.feed");
+
+
     const params = new URLSearchParams(window.location.search);
     const config_url = params.get('config'); // 获取 config 参数
 
     console.log("配置文件地址:", config_url);
+
     if (config_url) {
         // config_url 是一个 json 文件的地址
         fetch(config_url)
@@ -114,25 +132,7 @@ config.init = function () {
             })
             .catch(err => {
                 console.error("读取远程配置失败:", err);
-                // 如果读取失败，就使用本地存储
-                $('#dialog').show();
             });
-    } else {
-        if (storage.getItem("isSaved") != "true") {
-            $('#dialog').show();
-        } else {
-            $('#dialog').hide();
-        }
-
-        config['lang'] = storage.getItem("config.lang");
-        config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
-        config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
-        config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
-        config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
-        config['weather']['params']['units'] = storage.getItem("config.weather.params.units");
-        config['weather']['params']['lang'] = config.lang;
-        config['weather']['params']['APPID'] = storage.getItem("config.weather.params.APPID");
-        config['news']['feed'] = storage.getItem("config.news.feed");
     }
 
 
