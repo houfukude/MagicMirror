@@ -22,10 +22,51 @@ var config = {
     weather: {
         // OpenWeatherMap API 参数
         params: {
-            q: '',               // 城市名称，格式：城市名,国家代码（如：beijing,cn）
-            units: '',           // 单位制：metric（摄氏度）或 imperial（华氏度）
-            lang: '',            // 天气信息显示语言，为空则使用全局 lang 设置
-            APPID: 'YOUR_APPID'  // OpenWeatherMap API 密钥
+            q: 'chongqing,china',              // 城市名称，格式：城市名,国家代码（如：chongqing,china）
+            units: 'metric',                   // 单位制：metric（摄氏度）或 imperial（华氏度）
+            lang: 'zh_cn',                     // 天气信息显示语言，默认中文
+            APPID: 'YOUR_APPID',               // OpenWeatherMap API 密钥
+            cnt: 6                             // 预报天数
+        },
+
+        // API 配置
+        apiVersion: '2.5',                    // API 版本
+        apiBase: 'https://api.openweathermap.org/data/',  // API 基础地址
+        weatherEndpoint: 'weather',           // 当前天气端点
+        forecastEndpoint: 'forecast/daily',   // 天气预报端点
+
+        // DOM 选择器
+        temperatureLocation: '.temp',          // 温度显示容器
+        windSunLocation: '.windsun',           // 风速日照显示容器
+        forecastLocation: '.forecast',        // 天气预报显示容器
+
+        // 时间间隔配置（毫秒）
+        updateInterval: 60000,                 // 更新间隔：60秒
+        fadeInterval: 6000,                    // 淡入淡出时间：6秒
+
+        // 显示配置
+        orientation: 'vertical',               // 预报布局：vertical（垂直）或 horizontal（水平）
+
+        // 天气图标映射表（OpenWeatherMap图标 -> Weather Icons图标）
+        iconTable: {
+            '01d': 'wi-day-sunny',           // 晴天
+            '02d': 'wi-day-cloudy',          // 少云
+            '03d': 'wi-cloudy',              // 多云
+            '04d': 'wi-cloudy-windy',        // 阴天
+            '09d': 'wi-showers',             // 阵雨
+            '10d': 'wi-rain',                // 雨
+            '11d': 'wi-thunderstorm',        // 雷暴
+            '13d': 'wi-snow',                // 雪
+            '50d': 'wi-fog',                 // 雾
+            '01n': 'wi-night-clear',         // 夜晴
+            '02n': 'wi-night-cloudy',        // 夜少云
+            '03n': 'wi-night-cloudy',        // 夜多云
+            '04n': 'wi-night-cloudy',        // 夜阴天
+            '09n': 'wi-night-showers',       // 夜阵雨
+            '10n': 'wi-night-rain',          // 夜雨
+            '11n': 'wi-night-thunderstorm',  // 夜雷暴
+            '13n': 'wi-night-snow',          // 夜雪
+            '50n': 'wi-night-alt-cloudy-windy' // 夜雾
         }
     },
 
@@ -125,7 +166,7 @@ var config = {
         // Home Assistant 连接配置
         api: 'ws://homeassistant.local:8123/api/websocket', // Home Assistant WebSocket API
         entity_id: 'todo.shopping_list', // 待办事项实体ID
-        token: ''                // Home Assistant 访问令牌
+        token: 'YOUR_Home_Assistant_TOKEN'                // Home Assistant 访问令牌
     }
 }
 
