@@ -1,14 +1,12 @@
 var todo = {
     todoLocation: '.todo',
+    todoParent: '.lower-todo',
     todoItems: [],
-    seenTodoItems: [],
     api: "ws://homeassistant.local:8123/api/websocket",
     token: null,
     entity_id: "todo.bei_wang_lu",
-    fetchInterval: 6000,
-    updateInterval: 6000,
-
-
+    fetchInterval: 5000,
+    updateInterval: 5000,
 }
 
 var socket;
@@ -74,6 +72,7 @@ todo.fetchTODO = function () {
 
 
 todo.showTODO = function () {
+    $(todo.todoParent).hide();
     if (this.todoItems.length === 0) {
         return false;
     }
@@ -120,6 +119,10 @@ todo.showTODO = function () {
 
     const todoData = html;
 
+    if (todoData !== "") {
+        $(todo.todoParent).show();
+    }
+
     $(this.todoLocation).updateWithText(todoData, this.fadeInterval);
 
     return true;
@@ -127,6 +130,7 @@ todo.showTODO = function () {
 }
 
 todo.init = function () {
+    $(todo.todoParent).hide();
     this.api = config.todo.api;
     this.token = config.todo.token;
     this.entity_id = config.todo.entity_id;
