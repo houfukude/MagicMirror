@@ -81,4 +81,6 @@ jQuery(document).ready(function ($) {
 
 	news.init();
 
+	todo.init();
+
 });

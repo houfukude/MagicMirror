@@ -23,7 +23,13 @@ var config = {
             '早上好，美女！',
             '祝您愉快!',
             '昨晚睡得怎么样?',
-            '淫荡的一天又开始了！'
+            '淫荡的一天又开始了！',
+            '今天是个美好的一天！',
+            '今天看起来很棒！',
+            '早上好呀，心情怎么样？',
+            '早安，小可爱！',
+            '睡得好吗？今天又可以闪闪发光啦！'
+
         ],
         afternoon: [
             '你好, 大美女!',
@@ -34,7 +40,9 @@ var config = {
             '哇, 你今天真是火辣!',
             '你看起来真是养眼!',
             'Hi, sexy!',
-            '完美无缺'
+            '完美无缺',
+            '今晚想来点刺激的吗？',
+            '今天帅哥对你抛媚眼了么?'
         ]
     },
     calendar: {
@@ -66,6 +74,11 @@ var config = {
     },
     news: {
         feed: ''
+    },
+    todo: {
+        api: '',
+        entity_id: '',
+        token: ''
     }
 }
 
@@ -89,6 +102,10 @@ config.init = function () {
     config['weather']['params']['APPID'] = storage.getItem("config.weather.params.APPID");
     config['news']['feed'] = storage.getItem("config.news.feed");
 
+    config['todo']['api'] = storage.getItem("config.todo.api");
+    config['todo']['entity_id'] = storage.getItem("config.todo.entity_id");
+    config['todo']['token'] = storage.getItem("config.todo.token");
+
 
     const params = new URLSearchParams(window.location.search);
     const config_url = params.get('config'); // 获取 config 参数
@@ -97,12 +114,12 @@ config.init = function () {
 
     if (config_url) {
         // config_url 是一个 json 文件的地址
-        fetch(config_url)
-            .then(response => {
-                if (!response.ok) throw new Error("网络错误: " + response.status);
-                return response.json();
-            })
-            .then(remoteConfig => {
+
+        $.ajax({
+            url: config_url,
+            method: "GET",
+            dataType: "json",
+            success: function (remoteConfig) {
                 // 将远程配置覆盖本地存储配置
                 config['lang'] = remoteConfig.lang || storage.getItem("config.lang");
                 config['time']['timeFormat'] = (remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat")) === 'on' ? '24' : '12';
@@ -114,6 +131,10 @@ config.init = function () {
                 config['weather']['params']['APPID'] = remoteConfig.weather?.params?.APPID || storage.getItem("config.weather.params.APPID");
                 config['news']['feed'] = remoteConfig.news?.feed || storage.getItem("config.news.feed");
 
+                config['todo']['api'] = remoteConfig.todo?.api || storage.getItem("config.todo.api");
+                config['todo']['entity_id'] = remoteConfig.todo?.entity_id || storage.getItem("config.todo.entity_id");
+                config['todo']['token'] = remoteConfig.todo?.token || storage.getItem("config.todo.token");
+
                 // 保存远程配置到 localStorage
                 storage.setItem("config.lang", config.lang);
                 storage.setItem("config.time.timeFormat", remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat"));
@@ -124,15 +145,20 @@ config.init = function () {
                 storage.setItem("config.weather.params.APPID", remoteConfig.weather?.params?.APPID ?? storage.getItem("config.weather.params.APPID"));
                 storage.setItem("config.news.feed", remoteConfig.news?.feed ?? storage.getItem("config.news.feed"));
 
+                storage.setItem("config.todo.api", remoteConfig.todo?.api ?? storage.getItem("config.todo.api"));
+                storage.setItem("config.todo.entity_id", remoteConfig.todo?.entity_id ?? storage.getItem("config.todo.entity_id"));
+                storage.setItem("config.todo.token", remoteConfig.todo?.token ?? storage.getItem("config.todo.token"));
+
                 // 标记已经保存
                 storage.setItem("isSaved", "true");
 
                 $('#dialog').hide(); // 成功读取远程配置后隐藏对话框
-
-            })
-            .catch(err => {
+            }.bind(this),
+            error: function (err) {
                 console.error("读取远程配置失败:", err);
-            });
+            }
+        })
+
     }
 
 

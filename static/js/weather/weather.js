@@ -29,7 +29,7 @@ var weather = {
 	apiBase: 'https://api.openweathermap.org/data/',
 	weatherEndpoint: 'weather',
 	forecastEndpoint: 'forecast/daily',
-	updateInterval: config.weather.interval || 12000,
+	updateInterval: config.weather.interval || 60000,
 	fadeInterval: config.weather.fadeInterval || 6000,
 	intervalId: null,
 	orientation: config.weather.orientation || 'vertical',
