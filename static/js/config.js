@@ -8,9 +8,14 @@ var config = {
 
     // 时间模块配置
     time: {
-        timeFormat: 24,          // 时间格式：12（12小时制）或 24（24小时制）
+        // DOM 选择器
+        dateLocation: '.date',   // 日期显示容器
+        timeLocation: '#time',   // 时间显示容器
+
+        timeFormat: 'HH',        // 时间格式：'HH'（24小时制）或 'hh'（12小时制）
         displaySeconds: true,    // 是否显示秒数
         digitFade: false,        // 是否启用数字淡入淡出动画效果
+        updateInterval: 1000,    // 时间更新间隔：1秒（毫秒）
     },
 
     // 天气模块配置
@@ -26,6 +31,8 @@ var config = {
 
     // 恭维语模块配置
     compliments: {
+        // DOM 选择器
+        complimentLocation: '.compliment',
         interval: 30000,         // 切换间隔时间：30秒
         fadeInterval: 4000,     // 淡入淡出动画时间：4秒
 
@@ -114,7 +121,7 @@ var config = {
         fetchInterval: 5000,          // 数据获取间隔：5秒
         updateInterval: 5000,         // 更新间隔：5秒
         fadeInterval: 1500,           // 淡入淡出动画时间：1.5秒
-        
+
         // Home Assistant 连接配置
         api: 'ws://homeassistant.local:8123/api/websocket', // Home Assistant WebSocket API
         entity_id: 'todo.shopping_list', // 待办事项实体ID
@@ -161,10 +168,10 @@ config.loadFromLocalStorage = function (storage) {
     // 加载基础配置
     config['lang'] = storage.getItem("config.lang");
 
-    // 加载时间配置（复选框值转换为布尔值）
-    config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") == 'on' ? '24' : '12';
-    config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") == 'on' ? true : false;
-    config['time']['digitFade'] = storage.getItem("config.time.digitFade") == 'on' ? true : false;
+    // 加载时间配置
+    config['time']['timeFormat'] = storage.getItem("config.time.timeFormat") || config.time.timeFormat; // 直接存储 'HH' 或 'hh'
+    config['time']['displaySeconds'] = storage.getItem("config.time.displaySeconds") === null ? config.time.displaySeconds : (storage.getItem("config.time.displaySeconds") === 'true');
+    config['time']['digitFade'] = storage.getItem("config.time.digitFade") === null ? config.time.digitFade : (storage.getItem("config.time.digitFade") === 'true');
 
     // 加载天气配置
     config['weather']['params']['q'] = storage.getItem("config.weather.params.q");
@@ -221,10 +228,10 @@ config.mergeRemoteConfig = function (remoteConfig, storage) {
     // 合并基础配置
     config['lang'] = remoteConfig.lang || storage.getItem("config.lang");
 
-    // 合并时间配置（注意复选框值的转换）
-    config['time']['timeFormat'] = (remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat")) === 'on' ? '24' : '12';
-    config['time']['displaySeconds'] = (remoteConfig.time?.displaySeconds ?? storage.getItem("config.time.displaySeconds")) === 'on';
-    config['time']['digitFade'] = (remoteConfig.time?.digitFade ?? storage.getItem("config.time.digitFade")) === 'on';
+    // 合并时间配置
+    config['time']['timeFormat'] = remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat") ?? config.time.timeFormat;
+    config['time']['displaySeconds'] = remoteConfig.time?.displaySeconds ?? storage.getItem("config.time.displaySeconds") ?? config.time.displaySeconds;
+    config['time']['digitFade'] = remoteConfig.time?.digitFade ?? storage.getItem("config.time.digitFade") ?? config.time.digitFade;
 
     // 合并天气配置
     config['weather']['params']['q'] = remoteConfig.weather?.params?.q || storage.getItem("config.weather.params.q");
@@ -254,9 +261,9 @@ config.saveToLocalStorage = function (remoteConfig, storage) {
     storage.setItem("config.lang", config.lang);
 
     // 保存时间配置
-    storage.setItem("config.time.timeFormat", remoteConfig.time?.timeFormat ?? storage.getItem("config.time.timeFormat"));
-    storage.setItem("config.time.displaySeconds", remoteConfig.time?.displaySeconds ?? storage.getItem("config.time.displaySeconds"));
-    storage.setItem("config.time.digitFade", remoteConfig.time?.digitFade ?? storage.getItem("config.time.digitFade"));
+    storage.setItem("config.time.timeFormat", config.time.timeFormat); // 直接存储 'HH' 或 'hh'
+    storage.setItem("config.time.displaySeconds", config.time.displaySeconds); // 直接存储布尔值
+    storage.setItem("config.time.digitFade", config.time.digitFade); // 直接存储布尔值
 
     // 保存天气配置
     storage.setItem("config.weather.params.q", remoteConfig.weather?.params?.q ?? storage.getItem("config.weather.params.q"));
