@@ -82,13 +82,26 @@ var config = {
             // symbol: 'venus-mars',
             // url: "https://server/url/to/theirs.ics",
             // },
-        ]                 
+        ]
     },
 
     // 新闻模块配置
     news: {
+        // DOM 选择器
+        newsLocation: '.news',   // 新闻显示容器
+
+        // RSS转换服务配置
+        rss2json: 'https://api.rss2json.com/v1/api.json?rss_url=',  // RSS转JSON服务地址
+
+        // 其他配置
+        feed: 'https://feedx.net/rss/nytimes.xml',                // RSS订阅源URL（字符串或数组）
+        requestTimeout: 10000,    // 请求超时时间：10秒
+
+        // 时间间隔配置（毫秒）
         fadeInterval: 2000,      // 淡入淡出动画时间：2秒
-        feed: ''                 // RSS订阅源URL
+        fetchInterval: 60000,    // 数据获取间隔：60秒
+        interval: 5500,          // 显示更新间隔：5.5秒
+
     },
 
     // TODO 待办事项模块配置
@@ -96,10 +109,12 @@ var config = {
         // DOM 选择器
         todoLocation: '.todo',        // 待办事项内容容器
         todoParent: '.lower-todo',     // 待办事项父容器
+
         // 时间间隔配置（毫秒）
         fetchInterval: 5000,          // 数据获取间隔：5秒
         updateInterval: 5000,         // 更新间隔：5秒
         fadeInterval: 1500,           // 淡入淡出动画时间：1.5秒
+        
         // Home Assistant 连接配置
         api: 'ws://homeassistant.local:8123/api/websocket', // Home Assistant WebSocket API
         entity_id: 'todo.shopping_list', // 待办事项实体ID

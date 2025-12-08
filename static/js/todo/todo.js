@@ -3,13 +3,18 @@
  * 与 Home Assistant 集成，显示待办事项列表
  */
 var todo = {
+    // 本地数据变量（运行时状态，不存储在配置中）
     todoItems: [],                // 待办事项数组
+
+    // WebSocket 连接对象
+    socket: null,                 // WebSocket 实例
+    socket_id: 0,                 // 消息ID计数器，用于匹配请求和响应
+
+    // 定时器ID（运行时状态，不存储在配置中）
+    intervalId: null,            // 显示更新定时器
 }
 
-// WebSocket 连接对象
-var socket;
-// 消息ID计数器，用于匹配请求和响应
-var socket_id = 0;
+
 
 /**
  * 认证并连接到 Home Assistant WebSocket
@@ -17,21 +22,21 @@ var socket_id = 0;
  */
 todo.authTODO = function () {
     // 创建 WebSocket 连接
-    socket = new WebSocket(config.todo.api);
+    todo.socket = new WebSocket(config.todo.api);
 
     // 连接成功回调
-    socket.onopen = function () {
+    todo.socket.onopen = function () {
         console.log("WebSocket 已连接");
 
         // 1. 发送认证信息
-        socket.send(JSON.stringify({
+        todo.socket.send(JSON.stringify({
             type: "auth",
             access_token: config.todo.token
         }));
     };
 
     // 接收消息回调
-    socket.onmessage = function (event) {
+    todo.socket.onmessage = function (event) {
         const data = JSON.parse(event.data);
         console.log("收到消息:", data);
 
@@ -42,7 +47,7 @@ todo.authTODO = function () {
         }
 
         // 3. 处理待办事项数据响应
-        if (data.type === "result" && data.id === socket_id) {
+        if (data.type === "result" && data.id === todo.socket_id) {
             // 从响应中提取待办事项列表
             todo.todoItems = data.result.response[config.todo.entity_id].items;
             console.log("Todo 列表：", todo.todoItems);
@@ -53,12 +58,12 @@ todo.authTODO = function () {
     };
 
     // 连接错误回调
-    socket.onerror = function (err) {
+    todo.socket.onerror = function (err) {
         console.error("WebSocket 错误:", err);
     };
 
     // 连接关闭回调
-    socket.onclose = function () {
+    todo.socket.onclose = function () {
         console.log("WebSocket 已关闭");
         // TODO: 可以在这里添加重连逻辑
     };
@@ -70,11 +75,11 @@ todo.authTODO = function () {
  */
 todo.fetchTODO = function () {
     // 递增消息ID，确保每个请求都有唯一标识
-    socket_id += 1;
+    todo.socket_id += 1;
 
     // 发送服务调用请求到 Home Assistant
-    socket.send(JSON.stringify({
-        id: socket_id,                    // 消息ID，用于匹配响应
+    todo.socket.send(JSON.stringify({
+        id: todo.socket_id,                    // 消息ID，用于匹配响应
         type: "call_service",             // 消息类型：服务调用
         domain: "todo",                   // 服务域：待办事项
         service: "get_items",             // 服务名称：获取项目列表
