@@ -7,6 +7,7 @@ var todo = {
     entity_id: "todo.bei_wang_lu",
     fetchInterval: 5000,
     updateInterval: 5000,
+    fadeInterval: 1500,
 }
 
 var socket;
