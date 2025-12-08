@@ -50,7 +50,7 @@ news.fetchNews = function () {
 	
 	// 如果没有配置RSS源，则返回
 	if (!feeds || feeds.length === 0) {
-		console.warn('未配置RSS新闻源');
+		console.warn('未配置 RSS 新闻源');
 		return;
 	}
 
@@ -179,7 +179,7 @@ news.init = function () {
 	// 检查是否配置了RSS源
 	var feeds = config.news.feed;
 	if (!feeds) {
-		console.warn('未配置RSS新闻源，新闻模块将被禁用');
+		console.warn('未配置 RSS 新闻源，新闻模块将被禁用');
 		return false;
 	}
 

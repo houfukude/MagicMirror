@@ -175,8 +175,17 @@ weather.updateWeatherForecast = function () {
 /**
  * 初始化天气模块
  * 设置语言参数，启动定时更新机制，并立即获取一次天气数据
+ * 检查OpenWeatherMap API密钥配置
+ * 
+ * @return {boolean} 初始化是否成功
  */
 weather.init = function () {
+	// 检查是否配置了OpenWeatherMap API密钥
+	if (!config.weather.params.APPID || config.weather.params.APPID === 'YOUR_APPID') {
+		console.warn('未配置 OpenWeatherMap API 密钥，天气模块将被禁用');
+		return false;
+	}
+
 	// 确保天气参数的语言设置与全局配置一致
 	if (config.weather.params.lang === undefined || config.weather.params.lang === '') {
 		config.weather.params.lang = config.lang;
@@ -196,4 +205,6 @@ weather.init = function () {
 	// 立即获取并显示天气数据
 	this.updateCurrentWeather();
 	this.updateWeatherForecast();
+
+	return true;
 }

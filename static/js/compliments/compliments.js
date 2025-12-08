@@ -57,8 +57,23 @@ compliments.updateCompliment = function () {
 /**
  * 初始化恭维语模块
  * 启动时立即显示一条恭维语，并设置定时更新机制
+ * 根据localStorage的isSaved状态决定是否启用模块
+ * 
+ * @return {boolean} 初始化是否成功
  */
 compliments.init = function () {
+	// 检查配置是否已完成设置
+	try {
+		var storage = window.localStorage;
+		if (storage && storage.getItem("isSaved") !== "true") {
+			console.warn('配置未完成，恭维语模块将被禁用');
+			return false;
+		}
+	} catch (error) {
+		console.warn('无法访问localStorage，恭维语模块将被禁用', error);
+		return false;
+	}
+
 	// 立即显示第一条恭维语
 	this.updateCompliment();
 
@@ -66,4 +81,6 @@ compliments.init = function () {
 	this.intervalId = setInterval(function () {
 		this.updateCompliment();
 	}.bind(this), config.compliments.interval);
+
+	return true;
 }

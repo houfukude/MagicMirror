@@ -16,80 +16,258 @@
         <h3>Magic Mirror Settings</h3>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
             <input class="mdl-textfield__input" type="text" id="lang" value="zh-cn">
-            <label class="mdl-textfield__label" for="lang">Language</label>
+            <label class="mdl-textfield__label" for="lang">语言设置</label>
         </div>
         <div>
-            <h5>Time Settings</h5>
-            <p>Set your Time display</p>
+            <h5>时间设置</h5>
+            <p>设置时间显示格式</p>
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="timeFormat">
                 <input type="checkbox" id="timeFormat" class="mdl-checkbox__input " checked>
-                <span class="mdl-checkbox__label">Enable24Hours</span>
+                <span class="mdl-checkbox__label">24小时制</span>
             </label>
             <br />
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="displaySeconds">
                 <input type="checkbox" id="displaySeconds" class="mdl-checkbox__input" checked>
-                <span class="mdl-checkbox__label">DisplaySeconds</span>
+                <span class="mdl-checkbox__label">显示秒数</span>
             </label>
             <br />
             <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="digitFade">
                 <input type="checkbox" id="digitFade" class="mdl-checkbox__input">
-                <span class="mdl-checkbox__label">DigitFade</span>
+                <span class="mdl-checkbox__label">数字淡入淡出</span>
             </label>
         </div>
         <div>
-            <h5>OpenWeatherMap</h5>
-            <p>First,go to <a href="http://openweathermap.org/appid">openweathermap.org</a> get your owner APPID</p>
+            <h5>OpenWeatherMap 天气</h5>
+            <p>首先，访问 <a href="http://openweathermap.org/appid">openweathermap.org</a> 获取您的API密钥</p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="key" value="YOUR_APPID">
-                <label class="mdl-textfield__label" for="key">API key</label>
+                <label class="mdl-textfield__label" for="key">API密钥</label>
             </div>
             <br />
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="city" value="chongqing,china">
-                <label class="mdl-textfield__label" for="city">City</label>
+                <label class="mdl-textfield__label" for="city">城市</label>
             </div>
             <br />
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="units" value="metric">
-                <label class="mdl-textfield__label" for="units">units</label>
+                <label class="mdl-textfield__label" for="units">温度单位</label>
             </div>
             <br />
         </div>
         <div>
-            <h5>News</h5>
-            <p>custom your news feed here</p>
+            <h5>新闻设置</h5>
+            <p>自定义您的新闻订阅源</p>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="feedUrl" value="https://feedx.net/rss/nytimes.xml">
-                <label class="mdl-textfield__label" for="feedUrl">Feed URL</label>
+                <label class="mdl-textfield__label" for="feedUrl">新闻源URL</label>
+            </div>
+        </div>
+        <div>
+            <h5>Home Assistant 待办事项</h5>
+            <p>配置Home Assistant集成以显示待办事项列表</p>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="todoApi" value="ws://homeassistant.local:8123/api/websocket">
+                <label class="mdl-textfield__label" for="todoApi">WebSocket API地址</label>
+            </div>
+            <br />
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="todoEntityId" value="todo.shopping_list">
+                <label class="mdl-textfield__label" for="todoEntityId">实体ID</label>
+            </div>
+            <br />
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="password" id="todoToken" value="YOUR_Home_Assistant_TOKEN">
+                <label class="mdl-textfield__label" for="todoToken">访问令牌</label>
             </div>
         </div>
         <div class="button">
             <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-                Save!
+                保存配置！
             </button>
         </div>
     </div>
     <script src="static/js/jquery.js"></script>
+    <script src="static/js/config.js"></script>
     <script>
+        /**
+         * 从 localStorage 加载配置到表单
+         * 根据 config.js 中的存储键名读取配置并设置表单默认值
+         */
+        function loadConfigFromStorage() {
+            try {
+                var storage = window.localStorage;
+                
+                // 加载基础配置
+                var savedLang = storage.getItem("config.lang");
+                if (savedLang) $("#lang").val(savedLang);
 
-        $("button").click(function () {
-            var storage = window.localStorage;
-            storage.setItem("config.lang", $("#lang").val());
-            storage.setItem("config.time.timeFormat", $("#timeFormat").val());
-            storage.setItem("config.time.displaySeconds", $("#displaySeconds").val());
-            storage.setItem("config.time.digitFade", $("#digitFade").val());
-            storage.setItem("config.weather.params.q", $("#city").val());
-            storage.setItem("config.weather.params.units", $("#units").val());
-            storage.setItem("config.news.feed", $("#feedUrl").val());
-            storage.setItem("isSaved", true);
-            var key = $("#key").val();
-            if (key != 'YOUR_APPID') {
-                storage.setItem("config.weather.params.APPID", key);
+                // 加载时间配置
+                var savedTimeFormat = storage.getItem("config.time.timeFormat");
+                if (savedTimeFormat) {
+                    // 将 'HH'/'hh' 转换为复选框状态
+                    $("#timeFormat").prop('checked', savedTimeFormat === 'HH');
+                }
+                
+                var savedDisplaySeconds = storage.getItem("config.time.displaySeconds");
+                if (savedDisplaySeconds) {
+                    $("#displaySeconds").prop('checked', savedDisplaySeconds === 'true');
+                }
+                
+                var savedDigitFade = storage.getItem("config.time.digitFade");
+                if (savedDigitFade) {
+                    $("#digitFade").prop('checked', savedDigitFade === 'true');
+                }
+
+                // 加载天气配置
+                var savedCity = storage.getItem("config.weather.params.q");
+                if (savedCity) $("#city").val(savedCity);
+                
+                var savedUnits = storage.getItem("config.weather.params.units");
+                if (savedUnits) $("#units").val(savedUnits);
+                
+                var savedAppId = storage.getItem("config.weather.params.APPID");
+                if (savedAppId) $("#key").val(savedAppId);
+
+                // 加载新闻配置
+                var savedFeed = storage.getItem("config.news.feed");
+                if (savedFeed) $("#feedUrl").val(savedFeed);
+
+                // 加载 TODO 配置
+                var savedTodoApi = storage.getItem("config.todo.api");
+                if (savedTodoApi) $("#todoApi").val(savedTodoApi);
+                
+                var savedTodoEntity = storage.getItem("config.todo.entity_id");
+                if (savedTodoEntity) $("#todoEntityId").val(savedTodoEntity);
+                
+                var savedTodoToken = storage.getItem("config.todo.token");
+                if (savedTodoToken) $("#todoToken").val(savedTodoToken);
+
+            } catch (error) {
+                console.error('加载配置失败:', error);
             }
-            window.location.href = './index.html';
+        }
+
+        /**
+         * 保存配置到 localStorage
+         * 使用与 config.js.saveToLocalStorage 一致的逻辑
+         */
+        function saveConfig() {
+            try {
+                var storage = window.localStorage;
+                
+                // 构建配置对象，模拟远程配置的结构
+                var configData = {
+                    lang: $("#lang").val(),
+                    time: {
+                        timeFormat: $("#timeFormat").prop('checked') ? 'HH' : 'hh',
+                        displaySeconds: $("#displaySeconds").prop('checked'),
+                        digitFade: $("#digitFade").prop('checked')
+                    },
+                    weather: {
+                        params: {
+                            q: $("#city").val(),
+                            units: $("#units").val(),
+                            APPID: $("#key").val()
+                        }
+                    },
+                    news: {
+                        feed: $("#feedUrl").val()
+                    },
+                    todo: {
+                        api: $("#todoApi").val(),
+                        entity_id: $("#todoEntityId").val(),
+                        token: $("#todoToken").val()
+                    }
+                };
+
+                // 使用 config.js 的保存逻辑
+                config.saveToLocalStorage(configData, storage);
+                
+                // 标记配置已保存
+                storage.setItem("isSaved", "true");
+                
+                // 显示保存成功消息
+                showMessage('配置保存成功！', 'success');
+                
+                // 延迟跳转，让用户看到成功消息
+                setTimeout(function() {
+                    window.location.href = './index.html';
+                }, 1500);
+                
+            } catch (error) {
+                console.error('保存配置失败:', error);
+                showMessage('配置保存失败: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * 显示操作结果消息
+         * @param {string} message - 消息内容
+         * @param {string} type - 消息类型：success/error
+         */
+        function showMessage(message, type) {
+            // 创建消息元素
+            var messageDiv = $('<div class="config-message ' + type + '">' + message + '</div>');
+            
+            // 添加消息样式
+            messageDiv.css({
+                'position': 'fixed',
+                'top': '20px',
+                'right': '20px',
+                'padding': '12px 24px',
+                'border-radius': '4px',
+                'color': 'white',
+                'font-weight': '500',
+                'z-index': '9999',
+                'opacity': '0',
+                'transform': 'translateY(-20px)',
+                'transition': 'all 0.3s ease'
+            });
+            
+            // 根据类型设置背景色
+            if (type === 'success') {
+                messageDiv.css('background-color', '#4CAF50');
+            } else {
+                messageDiv.css('background-color', '#F44336');
+            }
+            
+            // 添加到页面并显示动画
+            $('body').append(messageDiv);
+            setTimeout(function() {
+                messageDiv.css({
+                    'opacity': '1',
+                    'transform': 'translateY(0)'
+                });
+            }, 100);
+            
+            // 3秒后自动移除
+            setTimeout(function() {
+                messageDiv.fadeOut(function() {
+                    messageDiv.remove();
+                });
+            }, 3000);
+        }
+
+        // 页面加载完成后执行
+        $(document).ready(function() {
+            // 加载已保存的配置
+            loadConfigFromStorage();
+            
+            // 绑定保存按钮事件
+            $("button").click(saveConfig);
         });
     </script>
+    <style>
+        /* 配置消息样式 */
+        .config-message.success {
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+        .config-message.error {
+            box-shadow: 0 2px 5px rgba(244, 67, 54, 0.3);
+        }
+    </style>
 </body>
 
 </html>

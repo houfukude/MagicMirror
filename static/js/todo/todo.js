@@ -164,10 +164,20 @@ todo.showTODO = function () {
 /**
  * 初始化 TODO 模块
  * 加载配置、建立连接、启动定时更新
+ * 检查Home Assistant token配置
+ * 
+ * @return {boolean} 初始化是否成功
  */
 todo.init = function () {
+
     // 初始隐藏待办事项容器
     $(config.todo.todoParent).hide();
+
+    // 检查是否配置了Home Assistant访问令牌
+    if (!config.todo.token || config.todo.token === 'YOUR_Home_Assistant_TOKEN') {
+        console.warn('未配置 Home Assistant 访问令牌，TODO 模块将被禁用');
+        return false;
+    }
 
     // 建立连接并认证
     this.authTODO();
@@ -176,4 +186,6 @@ todo.init = function () {
     this.intervalId = setInterval(() => {
         this.fetchTODO();
     }, config.todo.fetchInterval);
+
+    return true;
 }
