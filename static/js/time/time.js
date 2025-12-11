@@ -4,7 +4,7 @@
  */
 var time = {
 	// 定时器ID（运行时状态，不存储在配置中）
-	intervalId: null        // 定时器ID，用于管理时间更新间隔
+	intervalId: undefined        // 定时器ID，用于管理时间更新间隔
 };
 
 /**
