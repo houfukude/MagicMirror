@@ -167,6 +167,18 @@ var config = {
         api: 'ws://homeassistant.local:8123/api/websocket', // Home Assistant WebSocket API
         entity_id: 'todo.shopping_list', // 待办事项实体ID
         token: 'YOUR_Home_Assistant_TOKEN'                // Home Assistant 访问令牌
+    },
+
+    // 背景视频模块配置
+    background: {
+        // 视频源URL
+        videoUrl: '',
+
+        // 其他配置
+        autoplay: true,          // 自动播放
+        loop: true,             // 循环播放
+        muted: true,            // 静音播放（自动播放需要）
+        objectFit: 'cover'       // 视频填充方式：cover（填充）、contain（包含）
     }
 }
 
@@ -227,6 +239,9 @@ config.loadFromLocalStorage = function (storage) {
     config['todo']['api'] = storage.getItem("config.todo.api");
     config['todo']['entity_id'] = storage.getItem("config.todo.entity_id");
     config['todo']['token'] = storage.getItem("config.todo.token");
+
+    // 加载背景视频配置
+    config['background']['videoUrl'] = storage.getItem("config.background.videoUrl");
 }
 
 /**
@@ -288,6 +303,9 @@ config.mergeRemoteConfig = function (remoteConfig, storage) {
     config['todo']['entity_id'] = remoteConfig.todo?.entity_id || storage.getItem("config.todo.entity_id");
     config['todo']['token'] = remoteConfig.todo?.token || storage.getItem("config.todo.token");
 
+    // 合并背景视频配置
+    config['background']['videoUrl'] = remoteConfig.background?.videoUrl || storage.getItem("config.background.videoUrl");
+
     // 将合并后的配置保存到本地存储，以便下次使用
     this.saveToLocalStorage(remoteConfig, storage);
 }
@@ -318,4 +336,7 @@ config.saveToLocalStorage = function (remoteConfig, storage) {
     storage.setItem("config.todo.api", remoteConfig.todo?.api ?? storage.getItem("config.todo.api"));
     storage.setItem("config.todo.entity_id", remoteConfig.todo?.entity_id ?? storage.getItem("config.todo.entity_id"));
     storage.setItem("config.todo.token", remoteConfig.todo?.token ?? storage.getItem("config.todo.token"));
+
+    // 保存背景视频配置
+    storage.setItem("config.background.videoUrl", remoteConfig.background?.videoUrl ?? storage.getItem("config.background.videoUrl"));
 }

@@ -83,4 +83,6 @@ jQuery(document).ready(function ($) {
 
 	todo.init();
 
+	background.init();
+
 });

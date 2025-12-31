@@ -12,42 +12,43 @@
 </head>
 
 <body>
-    <div id="wrapper" class="container">
+    <div id="root">
+        <div id="wrapper" class="container">
 
-        <div class="top right">
-            <div class="windsun small dimmed">
+            <div class="top right">
+                <div class="windsun small dimmed">
+                </div>
+                <div class="temp">
+                </div>
+                <div class="forecast small dimmed">
+                </div>
             </div>
-            <div class="temp">
+            <div class="top left">
+                <div class="date small dimmed">
+                </div>
+                <div class="time" id="time">
+                </div>
+                <div class="calendar xxsmall">
+                </div>
             </div>
-            <div class="forecast small dimmed">
+            <div id="dialog" class="dialog center-hor" hidden>您需要先进行<a href="config.html">一些设置</a>！</div>
+            <div class="lower-third center-hor">
+                <div class="compliment light">
+                </div>
             </div>
-        </div>
-        <div class="top left">
-            <div class="date small dimmed">
-            </div>
-            <div class="time" id="time">
-            </div>
-            <div class="calendar xxsmall">
-            </div>
-        </div>
-        <div id="dialog" class="dialog center-hor" hidden>您需要先进行<a href="config.html">一些设置</a>！</div>
-        <div class="lower-third center-hor">
-            <div class="compliment light">
-            </div>
-        </div>
-        <div class="lower-todo">
+            <div class="lower-todo">
 
-            <div class="todo light">
+                <div class="todo light">
 
+                </div>
             </div>
-        </div>
-        <div class="bottom center-hor">
-            <div class="news medium">
+            <div class="bottom center-hor">
+                <div class="news medium">
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-
     <script src="static/js/jquery.js"></script>
     <script src="static/js/jquery.feedToJSON.js"></script>
     <!--<script src="static/js/ical_parser.js"></script>-->
@@ -61,6 +62,7 @@
     <script src="static/js/news/news.js"></script>
     <script src="static/js/todo/todo.js"></script>
     <script src="static/js/main.js"></script>
+    <script src="static/js/background.js"></script>
 
 </body>
 

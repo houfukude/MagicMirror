@@ -136,7 +136,7 @@ todo.showTODO = function () {
         if (item.status !== "completed") {
             // 显示任务标题，带待办图标
             html += `
-             <span>🔜 ${item.summary}</span><br/>
+             <span>${item.summary}</span><br/>
             `;
 
             // 如果有描述信息，也显示出来

@@ -7,18 +7,18 @@
  * 原始版本：http://airshp.com/2011/jquery-plugin-feed-to-json/
  */
 var news = {
-    // 本地数据变量（运行时状态，不存储在配置中）
-    newsItems: [],               // 未显示的新闻标题数组
-    seenNewsItem: [],            // 已显示的新闻标题数组
-    
-    // 状态变量（运行时状态，不存储在配置中）
-    cacheBuster: Math.floor((new Date().getTime()) / 1200 / 1000), // 缓存破坏器，避免缓存
-    failedAttempts: 0,           // 连续失败次数计数器
-    maxFailedAttempts: 20,       // 最大连续失败次数
-    
-    // 定时器ID（运行时状态，不存储在配置中）
-    intervalId: null,            // 显示更新定时器
-    fetchNewsIntervalId: null    // 数据获取定时器
+	// 本地数据变量（运行时状态，不存储在配置中）
+	newsItems: [],               // 未显示的新闻标题数组
+	seenNewsItem: [],            // 已显示的新闻标题数组
+
+	// 状态变量（运行时状态，不存储在配置中）
+	cacheBuster: Math.floor((new Date().getTime()) / 1200 / 1000), // 缓存破坏器，避免缓存
+	failedAttempts: 0,           // 连续失败次数计数器
+	maxFailedAttempts: 20,       // 最大连续失败次数
+
+	// 定时器ID（运行时状态，不存储在配置中）
+	intervalId: null,            // 显示更新定时器
+	fetchNewsIntervalId: null    // 数据获取定时器
 }
 
 /**
@@ -29,6 +29,10 @@ var news = {
  * @return {string} 转换后的RSS2JSON API URL
  */
 news.buildQueryString = function (feed) {
+	// 如果 feed 包含 json 参数，直接返回
+	if (feed.includes('json')) {
+		return feed;
+	}
 	return config.news.rss2json + encodeURIComponent(feed);
 }
 
@@ -39,15 +43,15 @@ news.buildQueryString = function (feed) {
 news.fetchNews = function () {
 	// 重置新闻列表，清空之前的数据
 	this.newsItems = [];
-	
+
 	// 获取配置中的RSS源
 	var feeds = config.news.feed;
-	
+
 	// 确保feeds是数组格式
 	if (typeof feeds === 'string') {
 		feeds = [feeds];
 	}
-	
+
 	// 如果没有配置RSS源，则返回
 	if (!feeds || feeds.length === 0) {
 		console.warn('未配置 RSS 新闻源');
@@ -107,7 +111,7 @@ news.parseFeed = function (data) {
 	// 遍历新闻条目，提取标题
 	for (var i = 0, count = data.length; i < count; i++) {
 		var item = data[i];
-		
+
 		// 确保标题存在且不为空
 		if (item && item.title && item.title.trim() !== '') {
 			_rssItems.push(item.title.trim());
@@ -116,7 +120,7 @@ news.parseFeed = function (data) {
 
 	// 将新获取的新闻标题合并到总列表中
 	this.newsItems = this.newsItems.concat(_rssItems);
-	
+
 	console.log('从RSS源获取到 ' + _rssItems.length + ' 条新闻，总新闻数: ' + this.newsItems.length);
 
 	return true;
@@ -161,7 +165,7 @@ news.showNews = function () {
 
 	// 使用淡入淡出效果显示新闻
 	$(config.news.newsLocation).updateWithText(_selectedNews, config.news.fadeInterval);
-	
+
 	// 重置失败计数器
 	this.failedAttempts = 0;
 
@@ -195,9 +199,9 @@ news.init = function () {
 
 	// 初始获取新闻数据
 	this.fetchNews();
-	
+
 	// 立即尝试显示一条新闻（如果有数据的话）
-	setTimeout(function() {
+	setTimeout(function () {
 		this.showNews();
 	}.bind(this), 1000);
 
@@ -211,6 +215,6 @@ news.init = function () {
 		this.showNews();
 	}.bind(this), config.news.interval);
 
-	console.log('新闻模块初始化完成，获取间隔: ' + config.news.fetchInterval/1000 + '秒，显示间隔: ' + config.news.interval/1000 + '秒');
+	console.log('新闻模块初始化完成，获取间隔: ' + config.news.fetchInterval / 1000 + '秒，显示间隔: ' + config.news.interval / 1000 + '秒');
 	return true;
 }

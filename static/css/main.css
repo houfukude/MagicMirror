@@ -17,6 +17,13 @@ body {
   text-rendering: geometricprecision;
 }
 
+/* root 作为烟花背景容器 */
+#root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 /* 外层 wrapper 用于旋转，不影响内部布局 */
 #wrapper {
   width: 100%;
