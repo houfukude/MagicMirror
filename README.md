@@ -1,4 +1,4 @@
 # MagicMirror
 MagicMirror only use HTML+CSS+JS
 
-demo is online : [http://github.houfukude.tk/MagicMirror/](https://blog.houfukude.eu.org/MagicMirror/)
+demo is online : [https://blog.houfukude.eu.org/MagicMirror/](https://blog.houfukude.eu.org/MagicMirror/)
